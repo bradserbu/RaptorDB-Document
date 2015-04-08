@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RaptorDB
 {
-    internal enum RDBExpression
+    public enum RDBExpression
     {
         Equal,
         Greater,
