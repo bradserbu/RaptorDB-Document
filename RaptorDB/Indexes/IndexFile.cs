@@ -185,6 +185,11 @@ namespace RaptorDB
         {
             long offset = _FileHeader.Length;
             offset += (long)pnum * _PageLength;
+
+            // [BRADS] _file is sometimes null when shutting down the index
+            if (_file == null) 
+                return;
+
             if (offset > _file.Length)
                 CreateBlankPages(pnum);
 
@@ -426,6 +431,10 @@ namespace RaptorDB
 
                 for (int j = 0; j < c; j++)
                     CreatePageListData(_pages, lastoffset, lastblock.Length, j, page);
+
+                // [BRADS] This is null when shutting down sometimes
+                if (_file == null)
+                    return;
 
                 SeekPage(diskpages[diskpages.Count - 1]);
                 _file.Write(page, 0, page.Length);
